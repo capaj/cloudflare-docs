@@ -94,8 +94,10 @@ async function handleRequest(request) {
   }
 
   const webSocketPair = new WebSocketPair();
-  const client = webSocketPair[0], // server-side WS endpoint in the worker
-    server = webSocketPair[1]; // this is the remote from whoever connected to your worker-a browser client for example
+  // This is the server-side WebSocket in the Worker.
+	const client = webSocketPair[0],
+	  //This is the remote connection. For example, from a browser client.
+    server = webSocketPair[1];
 
   return new Response(null, {
     status: 101,
@@ -118,8 +120,10 @@ async fn fetch(req: HttpRequest, _env: Env, _ctx: Context) -> Result<worker::Res
     }
 
     let ws = WebSocketPair::new()?;
-    let client = ws.client;  // server-side WS endpoint in the worker
-    let server = ws.server; // this is the remote from whoever connected to your worker-a browser client for example
+		// This is the server-side WebSocket in the Worker.
+    let client = ws.client;
+		// This is the remote connection. For example, from a browser client.
+    let server = ws.server;
     server.accept()?;
 
     worker::Response::from_websocket(client)
